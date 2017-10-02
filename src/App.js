@@ -13,20 +13,27 @@ constructor() {
   super();
   this.state = {
     text : "",
-    posts : []
+    posts : [],
+    id : 0
   };
-  this.onChange=this.onChange.bind(this);
-  this.onClick=this.onClick.bind(this);
 }
 
-onChange(e) {
+onChange = (e) => {
   this.setState({ text : e.target.value })
 }
 
-onClick(e) {
+onClick = (e) => {
   const newPost = this.state.posts;
-  newPost.push(this.state.text);
+  const id = this.state.id + 1;
+  newPost.push({"id" : id, "content" : this.state.text});
   this.setState({ posts : newPost});
+  this.setState({id : id});
+}
+
+deletePost = (id) => {
+  this.setState(prevState => ({
+    posts: prevState.posts.filter(el => el.id != id )
+  }));
 }
 
 render() {
@@ -41,7 +48,7 @@ render() {
         </p>
         <Button label="Un Bouton" func={this.onClick}/>
         <Textarea func={this.onChange} />
-        <PostContainer posts={this.state.posts}/>
+        <PostContainer deletePost={this.deletePost} posts={this.state.posts}/>
       </div>
     );
   }

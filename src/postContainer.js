@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import Post from'./post';
+import Post from './post';
+
 class PostContainer extends Component {
     render() {
         return (
             <ul>
                 {
-                    Object.keys(this.props.posts).map(function(key) {
-                    return <li>{this.props.posts[key]}</li>
-                    }.bind(this))
+                    this.props.posts.map((post) =>{
+                        return <Post key={post.id} id={post.id} content={post.content} deletePost={this.props.deletePost} />
+                    })
                 }
             </ul>
         )
